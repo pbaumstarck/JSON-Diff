@@ -1,0 +1,31 @@
+application: diffjson
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true
+
+libraries:
+- name: webapp2
+  version: latest
+- name: jinja2
+  version: latest
+
+handlers:
+- url: /js
+  static_dir: js
+
+- url: /lib
+  static_dir: lib
+
+- url: /css/(.*)
+  static_files: css/\1
+  upload: css/(.*\.css)
+
+- url: /imgs
+  static_dir: imgs
+
+- url: /tang
+  static_dir: tang
+
+- url: /.*
+  script: app.app

@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="header">
+    <span class="title">Earth's Original JSON Diff</span>
+    <span class="buttons">
+      <div class="save" ng-click="save()">Save</div>
+      <span>{{ saveMessage }}</span>
+    </span>
+  </div>
+  <div class="social">
+    <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://jsondiff.itsagoldenage.com">Tweet</a>
+    <div class="g-plus" data-action="share" data-annotation="bubble" data-href="http://jsondiff.itsagoldenage.com"></div>
+  </div>
+  <div class="row">
+    <div class="column">
+      <div class="header">
+        <div class="title">Left</div>
+        <!-- <div class="subtitle">
+          Entries missing from here show up in <span class="removed">red</span>
+        </div> -->
+        <div class="settings prettify-link">
+          <a ng-click="prettify(true)">prettify</a> |&nbsp;
+          <input type="checkbox" ng-model="autoPrettifyLeft"
+                 ng-change="checkPrettify(true)"
+                 id="auto-prettify-left">
+          <label for="auto-prettify-left">auto prettify</label>
+        </div>
+      </div>
+      <div class="body">
+        <textarea class="diff" id="left-textarea" ng-model="leftStr"></textarea>
+      </div>
+    </div>
+    <div class="column">
+      <div class="header">
+        <div class="title">
+          <span ng-if="parsing" class="match">
+            Diffing ...
+          </span>
+          <span ng-if="!parsing && doesJsonMatch()" class="good match">
+            Match!
+          </span>
+          <span ng-if="!parsing && !doesJsonMatch()" class="bad match">
+            Different!
+          </span>
+        </div>
+        <div class="subtitle">
+          <div class="settings refresh-link">
+            <a ng-click="refresh()">refresh</a> |&nbsp;
+            <input type="checkbox" ng-model="autoRefresh"
+                   ng-change="checkRefresh()" id="auto-refresh">
+            <label for="auto-refresh">auto refresh</label>
+          </div>
+          <div>Present in: both / <span class="removed">left only</span> / <span class="added">right only</span></div>
+          <div ng-if="!parsing">
+            <div class="warning" ng-if="left === undefined">
+              <div class="main-text">Error parsing left input!</div>
+              <div class="exception-body">{{ leftWarning }}</div>
+            </div>
+            <div class="warning" ng-if="right === undefined">
+              <div class="main-text">Error parsing right input!</div>
+              <div class="exception-body">{{ rightWarning }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="diff-container" ng-if="left !== undefined && right !== undefined">
+          <dj-elements has-left="true" left="left"
+                       has-right="true" right="right"></dj-elements>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <div class="header">
+        <div class="title">Right</div>
+        <!-- <div class="subtitle">
+          Entries added here show up in <span class="added">green</span>
+        </div> -->
+        <div class="settings prettify-link">
+          <a ng-click="prettify(false)">prettify</a> |&nbsp;
+          <input type="checkbox" ng-model="autoPrettifyRight"
+                 ng-change="checkPrettify(false)"
+                 id="auto-prettify-right">
+          <label for="auto-prettify-right">auto prettify</label>
+        </div>
+      </div>
+      <div class="body">
+        <textarea class="diff" id="right-textarea" ng-model="rightStr" rows="14"></textarea>
+      </div>
+    </div>
+  </div>
+</div>

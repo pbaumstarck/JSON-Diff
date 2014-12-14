@@ -1,0 +1,201 @@
+#solar-system {
+  border-bottom: 1px solid #ccc;
+  height: 68px;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+}
+#solar-system .planet {
+  z-index: -2;
+}
+#solar-system .orbit {
+  background: none;
+  border-radius: 100%;
+  position: absolute;
+}
+#solar-system .orbit.back {
+  z-index: -3;
+  border-top: 1px solid rgba(100, 100, 100, 0.25);
+}
+#solar-system .orbit.front {
+  z-index: -1;
+  border-bottom: 1px solid rgba(100, 100, 100, 0.25);
+}
+#solar-system > * {
+  position: absolute;
+}
+#solar-system .planet.mercury {
+  background: rgba(130, 110, 100, 0.75);
+  border-radius: 4px;
+  height: 4px;
+  left: 4.5%;
+  margin-left: -2px;
+  position: absolute;
+  top: 32px;
+  width: 4px;
+}
+#solar-system .mercury.orbit {
+  height: 22px;
+  left: -4.5%;
+  position: absolute;
+  top: 23px;
+  width: 9%;
+}
+#solar-system .planet.venus {
+  background: rgba(240, 220, 140, 0.75);
+  border-radius: 8px;
+  height: 8px;
+  left: 7.5%;
+  margin-left: -4px;
+  position: absolute;
+  top: 30px;
+  width: 8px;
+}
+#solar-system .venus.orbit {
+  height: 36.66666667px;
+  left: -7.5%;
+  position: absolute;
+  top: 15.66666667px;
+  width: 15%;
+}
+#solar-system .planet.earth {
+  background: rgba(40, 100, 140, 0.75);
+  border-radius: 9px;
+  height: 9px;
+  left: 10.5%;
+  margin-left: -4.5px;
+  position: absolute;
+  top: 29.5px;
+  width: 9px;
+}
+#solar-system .earth.orbit {
+  height: 51.33333333px;
+  left: -10.5%;
+  position: absolute;
+  top: 8.33333333px;
+  width: 21%;
+}
+#solar-system .planet.mars {
+  background: rgba(150, 70, 20, 0.75);
+  border-radius: 6px;
+  height: 6px;
+  left: 13.5%;
+  margin-left: -3px;
+  position: absolute;
+  top: 31px;
+  width: 6px;
+}
+#solar-system .mars.orbit {
+  height: 66px;
+  left: -13.5%;
+  position: absolute;
+  top: 1px;
+  width: 27%;
+}
+#solar-system .planet.jupiter {
+  background: rgba(190, 110, 50, 0.75);
+  border-radius: 19px;
+  height: 19px;
+  left: 16.5%;
+  margin-left: -9.5px;
+  position: absolute;
+  top: 24.5px;
+  width: 19px;
+}
+#solar-system .jupiter.orbit {
+  height: 80.66666667px;
+  left: -16.5%;
+  position: absolute;
+  top: -6.33333333px;
+  width: 33%;
+}
+#solar-system .planet.saturn {
+  background: rgba(200, 170, 20, 0.75);
+  border-radius: 17px;
+  height: 17px;
+  left: 19.5%;
+  margin-left: -8.5px;
+  position: absolute;
+  top: 25.5px;
+  width: 17px;
+}
+#solar-system .saturn.orbit {
+  height: 95.33333333px;
+  left: -19.5%;
+  position: absolute;
+  top: -13.66666667px;
+  width: 39%;
+}
+#solar-system .planet.uranus {
+  background: rgba(170, 200, 230, 0.75);
+  border-radius: 13px;
+  height: 13px;
+  left: 22.5%;
+  margin-left: -6.5px;
+  position: absolute;
+  top: 27.5px;
+  width: 13px;
+}
+#solar-system .uranus.orbit {
+  height: 110px;
+  left: -22.5%;
+  position: absolute;
+  top: -21px;
+  width: 45%;
+}
+#solar-system .planet.neptune {
+  background: rgba(30, 50, 100, 0.75);
+  border-radius: 13px;
+  height: 13px;
+  left: 25.5%;
+  margin-left: -6.5px;
+  position: absolute;
+  top: 27.5px;
+  width: 13px;
+}
+#solar-system .neptune.orbit {
+  height: 124.66666667px;
+  left: -25.5%;
+  position: absolute;
+  top: -28.33333333px;
+  width: 51%;
+}
+#solar-system .sun {
+  background: #ff0;
+  border-radius: 68px;
+  height: 68px;
+  left: -40px;
+  width: 68px;
+}
+#solar-system .planet.earth.halo {
+  background: none;
+  border: 1px solid rgba(40, 100, 140, 0.5);
+  border-radius: 13px;
+  -webkit-box-shadow: 0 0 10px #0430BE;
+  -moz-box-shadow: 0 0 10px #0430BE;
+  box-shadow: 0 0 10px #0430BE;
+  height: 13px;
+  left: 10.5%;
+  margin-left: -6.5px;
+  position: absolute;
+  top: 27.5px;
+  width: 13px;
+}
+#solar-system .saturn.rings {
+  background: none;
+  border-radius: 25px / 10px;
+  height: 10px;
+  left: 19.5%;
+  margin-left: -12.5px;
+  position: absolute;
+  top: 29px;
+  width: 25px;
+}
+#solar-system .saturn.rings.back {
+  border-top: 6px solid rgba(163, 142, 34, 0.75);
+  z-index: -3;
+}
+#solar-system .saturn.rings.front {
+  border-bottom: 4px solid rgba(163, 142, 34, 0.75);
+  z-index: -1;
+}

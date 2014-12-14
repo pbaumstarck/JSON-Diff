@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app="DiffJson">
+  <head>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Iceland' rel='stylesheet' type='text/css'>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.7.0.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+
+    <script src="/lib/underscore.min.js"></script>
+
+    <script src="/js/diffctrl.js"></script>
+    <script src="/js/app.js"></script>
+    <link rel="stylesheet" href="/css/diffjson.css">
+    <style type="text/css">
+      p {
+        border: 1px solid blue;
+        margin: 4px;
+        padding: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      var objects = [null, {}, [], 1, 2, "a", "c", [1,2], [1,2,3], {"a":3}, {"a":3,"b":true,"c":[]}, true];
+      var body = document.getElementsByTagName('body')[0];
+      for (var i = 0; i < objects.length; ++i) {
+        for (var j = 0; j < objects.length; ++j) {
+          var obj_i = objects[i];
+          var obj_j = objects[j];
+          var json_i = JSON.stringify(obj_i);
+          var json_j = JSON.stringify(obj_j);
+          var div = document.createElement('div');
+          div.innerHTML = '<p>' + json_i + ' &ndash; ' + json_j + '<br>' +
+              '<dj-elements has-left="true" left=\'' + json_i + '\'' +
+              '             has-right="true" right=\'' + json_j + '\'></dj-elements>';
+          body.appendChild(div);
+          if (obj_i == null) {
+            div = document.createElement('div');
+            div.innerHTML = '<p>(false) &ndash; ' + json_j + '<br>' +
+                '<dj-elements has-left="false" left=\'' + json_i + '\'' +
+                '             has-right="true" right=\'' + json_j + '\'></dj-elements>';
+            body.appendChild(div);
+          }
+          if (obj_j == null) {
+            div = document.createElement('div');
+            div.innerHTML = '<p>' + json_i + ' &ndash; (false)<br>' +
+                '<dj-elements has-left="true" left=\'' + json_i + '\'' +
+                '             has-right="false" right=\'' + json_j + '\'></dj-elements>';
+            body.appendChild(div);
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

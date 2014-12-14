@@ -1,0 +1,218 @@
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  line-height: 18px;
+  font-family: 'Open Sans';
+}
+
+.container {
+  height: 100%;
+  position: relative;
+  width: 100%;
+}
+
+.container > .header {
+  /*border-bottom: 1px solid #ccc;*/
+  height: 68px;
+  margin-top: 10px;
+  padding: 20px;
+  width: 100%;
+}
+
+.container > .header > * {
+  display: inline-block;
+}
+
+.container > .header > .buttons {
+  float: right;
+  /*left: 20%;*/
+  position: relative;
+  width: 20%;
+}
+
+.container > .header > .buttons .save {
+  background: #f0f0f0;
+  border: 1px solid #ccf;
+  cursor: pointer;
+  line-height: 18px;
+  margin-top: -4px;
+  padding: 2px 4px;
+  text-align: center;
+  width: 52px;
+}
+
+.container > .header > .buttons .save:hover {
+  background: #404099;
+  color: white;
+}
+
+.container > .header > .title {
+  font-size: x-large;
+  font-weight: bold;
+  left: 20%;
+  position: relative;
+  text-align: center;
+  width: 60%;
+}
+
+.social {
+  text-align: center;
+}
+
+.row {
+  width: 100%;
+  height: 100%;
+}
+
+.column .header {
+  /*min-height: 86px;*/
+  min-height: 74px;
+}
+
+.column .body {
+  height: 100%;
+}
+
+.column:first-child {
+  margin-left: 4%;
+}
+
+.column {
+  float: left;
+  /*display: inline-block;*/
+  /*margin: 0;*/
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+  width: 31%;
+  height: 100%;
+}
+
+.column .title {
+  /*font-family: Courier;*/
+  font-size: large;
+  font-weight: bold;
+  margin: 10px;
+  text-align: center;
+}
+
+.column .subtitle {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.column .settings,
+.column .settings label {
+  font-size: small;
+  text-align: center;
+}
+
+.column .settings > * {
+  display: inline;
+}
+
+.column .settings input[type="checkbox"] {
+  margin-top: -1px;
+}
+
+.warning {
+  border: 2px solid rgb(255, 219, 126);
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.warning .main-text {
+  font-weight: bold;
+}
+
+textarea.diff,
+.diff-container {
+  /*font-family: Courier;*/
+}
+
+textarea.diff {
+  background: #f0f0f0;
+  height: 100%;
+  width: 100%;
+}
+
+.diff-container {
+  background: #f0f0ff;
+  display: inline-block;
+  margin-top: -3%;
+  padding: 0 6px;
+  width: 100%;
+}
+
+.object-item {
+  display: block;
+  margin-left: 10px;
+}
+
+.array-item {
+  display: block;
+  margin-left: 10px;
+}
+
+.array-index {
+  color: #aaa;
+  /*vertical-align: top;*/
+}
+.array-index:after {
+  content: ": ";
+  /*vertical-align: top;*/
+}
+
+.object-key {
+  color: #777;
+}
+.object-key:after {
+  content: "\": ";
+}
+.object-key:before {
+  content: "\"";
+}
+
+.match {
+  font-variant: small-caps;
+}
+
+.good.match {
+  color: green;
+}
+.good.match::after {
+  content: " \\o/";
+}
+
+.bad.match {
+  color: red;
+}
+.bad.match::before {
+  content: "* ";
+}
+.bad.match::after {
+  content: " *";
+}
+
+.removed {
+/*.primitive-value.removed,
+.object-key.removed {*/
+  /*background: rgba(255, 100, 100, 0.3);*/
+  background: #fcc;
+  color: red;
+}
+
+.added {
+/*.primitive-value.added,
+.object-key.added {*/
+  /*background: rgba(100, 255, 100, 0.3);*/
+  background: #cfc;
+  color: green;
+}
+
+.array-item-value {
+  /*display: inline-block;*/
+}

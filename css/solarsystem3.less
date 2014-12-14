@@ -1,0 +1,116 @@
+
+@import "for";
+
+@height: 68px;
+@start-orbit: 4.5%;
+@orbit-increment: 3%;
+@start-orbit-height: 22px;
+@fade-value: 75%;
+
+@planet_names: 'mercury', 'venus', 'earth', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune';
+@planet_colors: rgb(130, 110, 100), rgb(240, 220, 140), rgb(40, 100, 140), rgb(150, 70, 20), rgb(190, 110, 50), rgb(200, 170, 20), rgb(170, 200, 230), rgb(30, 50, 100);
+@planet_sizes: 4px, 8px, 9px, 6px, 19px, 17px, 13px, 13px;
+
+#solar-system {
+  border-bottom: 1px solid #ccc;
+  height: @height;
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+
+  .planet {
+    z-index: -2;
+  }
+
+  .orbit {
+    background: none;
+    border-radius: 100%;
+    position: absolute;
+
+    &.back {
+      z-index: -3;
+      border-top: 1px solid rgba(100, 100, 100, 0.25);
+    }
+    &.front {
+      z-index: -1;
+      border-bottom: 1px solid rgba(100, 100, 100, 0.25);
+    }
+  }
+
+  & > * {
+    position: absolute;
+  }
+
+  .-(@i: 1) when (@i <= length(@planet_names)) {
+    @name: e(extract(@planet_names, @i));
+    @color: extract(@planet_colors, @i);
+    @size: extract(@planet_sizes, @i);
+    @orbit-radius: @start-orbit + (@i - 1) * @orbit-increment;
+    @orbit-height: @start-orbit-height * @orbit-radius / @start-orbit;
+    .planet.@{name} {
+      background: fade(@color, @fade-value);
+      border-radius: @size;
+      height: @size;
+      left: @orbit-radius;
+      margin-left: -@size / 2;
+      position: absolute;
+      top: (68px - @size) / 2;
+      width: @size;
+    }
+    .@{name}.orbit {
+      height: @orbit-height;
+      left: -@orbit-radius;
+      position: absolute;
+      top: (@height - @orbit-height) / 2;
+      width: @orbit-radius * 2;
+    }
+    .-((@i + 1));
+  } .-;
+
+
+  .sun {
+    background: #ff0;
+    border-radius: 68px;
+    height: 68px;
+    left: -40px;
+    width: 68px;
+  }
+
+  .planet.earth.halo {
+    @halo-size: extract(@planet_sizes, 3) + 4px;
+    background: none;
+    border: 1px solid fade(extract(@planet_colors, 3), 50%);
+    border-radius: @halo-size;
+    -webkit-box-shadow: 0 0 10px #0430BE;
+    -moz-box-shadow: 0 0 10px #0430BE;
+    box-shadow: 0 0 10px #0430BE;
+    height: @halo-size;
+    left: @start-orbit + 2 * @orbit-increment;
+    margin-left: -@halo-size / 2;
+    position: absolute;
+    top: (@height - @halo-size) / 2;
+    width: @halo-size;
+  }
+
+  .saturn.rings {
+    @rings-height: 10px;
+    @rings-width: 25px;
+    background: none;
+    border-radius: @rings-width ~"/" @rings-height;
+    height: @rings-height;
+    left: @start-orbit + 5 * @orbit-increment;
+    margin-left: -@rings-width / 2;
+    position: absolute;
+    top: (@height - @rings-height) / 2;
+    width: @rings-width;
+
+    &.back {
+      border-top: 6px solid fade(#A38E22, @fade-value);
+      z-index: -3;
+    }
+    &.front {
+      border-bottom: 4px solid fade(#A38E22, @fade-value);
+      z-index: -1;
+    }
+  }
+}
