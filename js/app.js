@@ -166,7 +166,7 @@ angular.module('DiffJson', ['ui.bootstrap']).
               $http({
                   method: 'POST',
                   url: '/_save',
-                  data: 'state_json=' + stateJson,
+                  data: 'state_json=' + encodeURIComponent(stateJson),
                   headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                   }

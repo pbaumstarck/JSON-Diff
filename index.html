@@ -19,7 +19,7 @@
   </head>
   <body>
     <script type="text/javascript">
-      var diffState = {{ state_json_str|safe }};
+      var diffState = JSON.parse('{{ state_json_str|escapejs }}');
     </script>
     <div id="solar-system">
       <div class="planet sun"></div>

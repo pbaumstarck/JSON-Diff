@@ -8,6 +8,7 @@ import random
 import re
 import webapp2
 
+from google.appengine._internal.django.utils.html import escapejs
 from google.appengine.ext import ndb
 from google.appengine.ext.webapp import template
 
@@ -15,6 +16,7 @@ JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=["jinja2.ext.autoescape"],
     autoescape=True)
+JINJA_ENVIRONMENT.filters['escapejs'] = escapejs
 
 
 class SavedDiff(ndb.Model):
