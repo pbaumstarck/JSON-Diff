@@ -1,5 +1,24 @@
 
 /**
+ * The encoded state of the application. This is what we send back to the
+ * server upon a request to save the state, and how we re-populate the app
+ * when loaded with saved state.
+ * @typedef {leftStr: string,
+ *           rightStr: string,
+ *           autoRefresh: boolean,
+ *           autoPrettifyLeft: boolean,
+ *           autoPrettifyRight: boolean}
+ */
+var AppState;
+
+/**
+ * This is the state of the application as passed in from the controller.
+ * It is inlined on the 'index.html' page and used here.
+ * @type {?AppState}
+ */
+// var diffState;
+
+/**
  * Gets the type of the element.
  * @param {*} element An element whose type is desired.
  * @return {string} One of 'object', 'array', or 'primitive'.
@@ -19,27 +38,57 @@ angular.module('DiffJson', ['ui.bootstrap']).
     directive('djDiff', function() {
       return {
         controller: function($scope, $timeout, $http) {
-          if (true) {
-            // Pre-fill with a complex use case.
-            $scope.leftStr =
-                '[{"a":15}, {"a":15, "c":-9}, [1, "2", {"a":false}, ' +
-                '{"a":false}, "removed1", "rem2", true], 16, "9"]';
-            $scope.rightStr =
-                '[{"a":15}, {"a":15, "b":16}, [1, 2, [true], 6666], 17, 9,' +
-                ' 9, [], {}, [1], {"a":2}]';
-          } else {
-            $scope.leftStr = '{"a":false}';
-            $scope.rightStr = '[true]';
-          }
+          // Pre-fill with a complex use case.
+          $scope.leftStr =
+              '[{"a":15}, {"a":15, "c":-9}, [1, "2", {"a":false}, ' +
+              '{"a":false}, "removed1", "rem2", true], 16, "9"]';
+          $scope.rightStr =
+              '[{"a":15}, {"a":15, "b":16}, [1, 2, [true], 6666], 17, 9,' +
+              ' 9, [], {}, [1], {"a":2}]';
+          /**
+           * An optional warning to display in the left 'textarea' on errors.
+           * @type {string}
+           */
           $scope.leftWarning = null;
+          /**
+           * An optional warning to display in the right 'textarea' on errors.
+           * @type {string}
+           */
           $scope.rightWarning = null;
+          /**
+           * The parsed JSON object from the left 'textarea'.
+           * @type {*}
+           */
           $scope.left = JSON.parse($scope.leftStr);
+          /**
+           * The parsed JSON object from the right 'textarea'.
+           * @type {*}
+           */
           $scope.right = JSON.parse($scope.rightStr);
+          /**
+           * Whether to auto-refresh the computed diff.
+           * @type {boolean}
+           */
           $scope.autoRefresh = true;
+          /**
+           * Whether to auto-prettify the left 'textarea'.
+           * @type {boolean}
+           */
           $scope.autoPrettifyLeft = false;
+          /**
+           * Whether to auto-prettify the right 'textarea'.
+           * @type {boolean}
+           */
           $scope.autoPrettifyRight = false;
+          /**
+           * This flag lets the UI display a waiting state when the system
+           * is parsing/evaluating input changes.
+           * @type {boolean}
+           */
           $scope.parsing = false;
+
           if (diffState) {
+            // Load our state from that passed in by the server.
             $scope.leftStr = diffState.leftStr;
             $scope.rightStr = diffState.rightStr;
             $scope.autoRefresh = diffState.autoRefresh;
@@ -47,6 +96,13 @@ angular.module('DiffJson', ['ui.bootstrap']).
             $scope.autoPrettifyRight = diffState.autoPrettifyRight;
           }
 
+          /**
+           * Responds to changes in the left and right 'textarea's in a
+           * de-bounced fashion.
+           * @param {boolean} isLeft Whether the change came from the left or
+           *     the right 'textarea'.
+           * @param {string} value The new value.
+           */
           function textAreaChanged(isLeft, value) {
             $scope.parsing = true;
             try {
@@ -86,6 +142,8 @@ angular.module('DiffJson', ['ui.bootstrap']).
               }
             }
           }
+
+          // De-bounce the above event handler for the two 'textarea's.
           var debounceDelay = 200;
           var leftChanged = _.debounce(function(value) {
             $scope.$apply(function() {
@@ -98,6 +156,7 @@ angular.module('DiffJson', ['ui.bootstrap']).
             });
           }, debounceDelay);
 
+          // Attach the de-bounced change handlers to the 'textarea's.
           var lastLeftStr = $scope.leftStr;
           var lastRightStr = $scope.rightStr;
           $('#left-textarea').bind('keyup paste', function (e) {
@@ -119,6 +178,11 @@ angular.module('DiffJson', ['ui.bootstrap']).
             }
           });
 
+          /**
+           * Checks whether we are supposed to prettify the given 'textarea',
+           * and then does so.
+           * @param {boolean} isLeft Whether the left or the right 'textarea'.
+           */
           $scope.checkPrettify = function(isLeft) {
             if (isLeft && $scope.autoPrettifyLeft ||
                 !isLeft && $scope.autoPrettifyRight) {
@@ -126,6 +190,10 @@ angular.module('DiffJson', ['ui.bootstrap']).
             }
           };
 
+          /**
+           * Auto-prettifies the given 'textarea'.
+           * @param {boolean} isLeft Whether the left or the right 'textarea'.
+           */
           $scope.prettify = function(isLeft) {
             if (isLeft) {
               if ($scope.left) {
@@ -138,23 +206,36 @@ angular.module('DiffJson', ['ui.bootstrap']).
             }
           };
 
+          /* Refreshes the UI manually. */
           $scope.refresh = function() {
             textAreaChanged(true, $scope.leftStr);
             textAreaChanged(false, $scope.rightStr);
           };
 
+          /* Checks whether we should refresh the UI, and does so. */
           $scope.checkRefresh = function() {
             if ($scope.autoRefresh) {
               $scope.refresh();
             }
           };
 
+          /**
+           * @return {boolean} Whether the left and right JSON objets match
+           *     exactly. Used to toggle UI colors.
+           */
           $scope.doesJsonMatch = function() {
             return $scope.left !== undefined && $scope.right !== undefined &&
                 _.isEqual($scope.left, $scope.right);
           };
 
+          /**
+           * Executes a request to save the state of the application.
+           * On success, the server returns an alphanumeric ID to retrieve it
+           * by, and we update the page history to point to that link.
+           */
           $scope.save = function() {
+            // Encode the state of the application.
+            /* @type {!AppState} */
             var stateJson = JSON.stringify({
               leftStr: $scope.leftStr,
               rightStr: $scope.rightStr,
@@ -189,6 +270,9 @@ angular.module('DiffJson', ['ui.bootstrap']).
         templateUrl: '/tang/diffctrl.html'
       };
     }).
+    // Displays the diff between any two JSON elements of variable type.
+    // This gets their type and instantiates the proper sub-directives for
+    // display.
     directive('djElements', function() {
       return {
         controller: function($scope) {
@@ -266,7 +350,9 @@ angular.module('DiffJson', ['ui.bootstrap']).
                   '</span>'
       };
     }).
-
+    // Displays the diff between two objects (hash maps). Recurses to use
+    // the 'dj-elements' directive to compare the corresponding values of the
+    // objects.
     directive('djObjects', function($compile) {
       return {
         controller: function($scope) {
@@ -324,6 +410,8 @@ angular.module('DiffJson', ['ui.bootstrap']).
         }
       };
     }).
+    // Displays the diff between two arrays. Recurses to use the 'dj-elements'
+    // directive to compare the corresponding array elements.
     directive('djArrays', function($compile) {
       return {
         controller: function($scope) {
@@ -364,6 +452,8 @@ angular.module('DiffJson', ['ui.bootstrap']).
         }
       };
     }).
+    // Displays the diff between two primitive (non-object, non-array) values.
+    // This does not need to recurse and is terminal.
     directive('djPrimitives', function() {
       return {
         controller: function($scope) {
